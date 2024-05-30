@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <title>Hello, World!</title>
+</head>
+<body>
+  <div class="container">
+    <div id="menu" class="item item1">menu</div>
+    <div id="count" class="item item2">count</div>
+    <div class="item item3">play</div>
+    <div class="item item4">end</div>
+    </div>
+    <h2 class="txt" id="txt">hello chose your game</h2>
+  <script>
+  var txt = document.getElementById('txt');
+  
+  var menu = "menu";
+  var count = "count";
+  var play = "play";
+  var end = "end";
+  
+  var b = document.getElementById('menu');
+  b.addEventListener('click',function()
+  {
+    
+  var a = document.getElementById("txt");
+  a.textContent = menu;
+  document.body.appendChild(a);
+  });
+
+  
+  var b = document.getElementById('count');
+  b.addEventListener('click',function()
+  {
+    
+  var a = document.getElementById("txt");
+  a.textContent = count;
+  document.body.appendChild(a);
+  });
+
+  
+  var b = document.getElementById('play');
+  b.addEventListener('click',function()
+  {
+    
+  var a = document.getElementById("txt");
+  a.textContent = play;
+  document.body.appendChild(a);
+  }); 
+  
+  
+  var b = document.getElementById('end');
+  b.addEventListener('click',function()
+  {
+    
+  var a = document.getElementById("txt");
+  a.textContent = end;
+  document.body.appendChild(a);
+  });
+  </script>
+</body>
+</html>
