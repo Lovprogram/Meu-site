@@ -1,11 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Login Supabase</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    // CONFIG
+    const supabase = createClient(
+        "https://swgwnzjdhxsevfskqypq.supabase.co",
+        "sb_publishable_E1wuqLFP-66_FL3nsw3OhQ_XdRJigho"
+    );
+
+    // mensagem bonitinha
+    function msg(t) {
+        document.getElementById("msg").innerHTML =
+            `<div style='background:#222;padding:10px;border-radius:8px;text-align:center;margin-bottom:10px;'>${t}</div>`;
+    }
+
+    // alternar telas
+    window.toggle = function () {
+        const l = document.getElementById("login");
+        const r = document.getElementById("register");
+        l.style.display = l.style.display === "none" ? "block" : "none";
+        r.style.display = r.style.display === "none" ? "block" : "none";
+    };
+
+    // REGISTRO
+    window.register = async function () {
+        const email = document.getElementById("regEmail").value.trim();
+        const senha = document.getElementById("regSenha").value.trim();
+
+        if (!email || !senha) return msg("Preencha tudo!");
+
+        const { error } = await supabase.auth.signUp({ email, password: senha });
+
+        if (error) msg("Erro: " + error.message);
+        else msg("Conta criada! Verifique seu e-mail 📩");
+    };
+
+    // LOGIN
+    window.login = async function () {
+        const email = document.getElementById("loginEmail").value.trim();
+        const senha = document.getElementById("loginSenha").value.trim();
+
+        if (!email || !senha) return msg("Preencha tudo!");
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password: senha
+        });
+
+        if (error) msg("Erro: " + error.message);
+        else {
+            msg("Login realizado! 🚀");
+            // redirecionar se quiser:
+            // window.location.href = "/dashboard.html";
+        }
+    };
+</script>
 
 <style>
 body{
@@ -14,23 +69,19 @@ body{
 }
 .box{
     background:#1a1a1a;padding:25px;border-radius:12px;
-    width:90%;max-width:380px;
-    box-shadow:0 0 20px #000;
+    width:90%;max-width:380px;box-shadow:0 0 20px #000;
 }
 h2{text-align:center;}
 input{
-    width:100%;padding:12px;margin:8px 0;
-    background:#111;border:1px solid #333;
+    width:100%;padding:12px;margin:8px 0;background:#111;border:1px solid #333;
     border-radius:8px;color:white;
 }
 button{
-    width:100%;padding:12px;background:#4f8cff;
-    border:none;border-radius:8px;color:white;
-    cursor:pointer;font-weight:bold;
+    width:100%;padding:12px;background:#4f8cff;border:none;border-radius:8px;
+    cursor:pointer;color:white;font-weight:bold;
 }
 button:hover{background:#3b6bcc;}
-.switch{margin-top:10px;text-align:center;color:#ccc;cursor:pointer;}
-.msg{background:#222;padding:10px;border-radius:8px;margin-bottom:10px;text-align:center;}
+.switch{text-align:center;margin-top:10px;color:#ccc;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -41,88 +92,21 @@ button:hover{background:#3b6bcc;}
 <!-- LOGIN -->
 <div id="login">
     <h2>Login</h2>
-    <input type="email" id="loginEmail" placeholder="Email">
-    <input type="password" id="loginSenha" placeholder="Senha">
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginSenha" type="password" placeholder="Senha">
     <button onclick="login()">Entrar</button>
     <div class="switch" onclick="toggle()">Criar conta</div>
 </div>
 
-<!-- REGISTER -->
+<!-- REGISTRO -->
 <div id="register" style="display:none;">
     <h2>Registro</h2>
-    <input type="email" id="regEmail" placeholder="Email">
-    <input type="password" id="regSenha" placeholder="Senha">
+    <input id="regEmail" type="email" placeholder="Email">
+    <input id="regSenha" type="password" placeholder="Senha">
     <button onclick="register()">Registrar</button>
     <div class="switch" onclick="toggle()">Já tenho conta</div>
 </div>
-
 </div>
-
-<script>
-// ================= CONFIG =================
-const supabase = window.supabase.createClient(
-    "https://swgwnzjdhxsevfskqypq.supabase.co",
-    "sb_publishable_E1wuqLFP-66_FL3nsw3OhQ_XdRJigho"
-);
-
-// ================= UI =================
-function msg(text){
-    document.getElementById("msg").innerHTML = `<div class="msg">${text}</div>`;
-}
-
-function toggle(){
-    const l = document.getElementById("login");
-    const r = document.getElementById("register");
-    l.style.display = l.style.display === "none" ? "block" : "none";
-    r.style.display = r.style.display === "none" ? "block" : "none";
-}
-
-// ================= REGISTER =================
-async function register(){
-    const email = document.getElementById("regEmail").value.trim();
-    const senha = document.getElementById("regSenha").value.trim();
-
-    if(!email || !senha){
-        msg("Preencha tudo!");
-        return;
-    }
-
-    const { error } = await supabase.auth.signUp({
-        email: email,
-        password: senha
-    });
-
-    if(error){
-        msg("Erro: " + error.message);
-    } else {
-        msg("Conta criada! Verifique seu email 📩");
-    }
-}
-
-// ================= LOGIN =================
-async function login(){
-    const email = document.getElementById("loginEmail").value.trim();
-    const senha = document.getElementById("loginSenha").value.trim();
-
-    if(!email || !senha){
-        msg("Preencha tudo!");
-        return;
-    }
-
-    const { error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: senha
-    });
-
-    if(error){
-        msg("Erro: " + error.message);
-    } else {
-        msg("Login feito com sucesso 🚀");
-        // redirecionar se quiser:
-        // window.location.href = "dashboard.html";
-    }
-}
-</script>
 
 </body>
 </html>
