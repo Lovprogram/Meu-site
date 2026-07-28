@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html>
-<body style="background:black;color:lime;font-family:monospace">
+<head>
+<style>
+body {
+    background: black;
+    color: lime;
+    margin: 0;
+    overflow: hidden;
+}
+
+#saida {
+    font-size: 8vw;
+    font-family: monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+</style>
+</head>
+
+<body>
 
 <pre id="saida"></pre>
 
@@ -11,7 +29,8 @@ const saida = document.getElementById("saida");
 
 setInterval(() => {
     saida.textContent += texto + "\n";
-}, 10);
+    window.scrollTo(0, document.body.scrollHeight);
+}, 100);
 </script>
 
 </body>
