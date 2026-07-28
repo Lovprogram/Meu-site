@@ -3,34 +3,40 @@
 <head>
 <style>
 body {
-    background: black;
-    color: lime;
     margin: 0;
+    background: black;
+    color: #00ff00;
     overflow: hidden;
+    font-family: monospace;
 }
 
-#saida {
-    font-size: 8vw;
-    font-family: monospace;
+#terminal {
+    font-size: 5vw;
+    text-shadow: 0 0 10px #00ff00;
     white-space: pre-wrap;
-    word-break: break-word;
 }
 </style>
 </head>
 
 <body>
 
-<pre id="saida"></pre>
+<div id="terminal"></div>
 
 <script>
 const texto = "N̷̢̬̟͙̞̹̦̪̒̋NiggaNigga";
 
-const saida = document.getElementById("saida");
+const tela = document.getElementById("terminal");
 
 setInterval(() => {
-    saida.textContent += texto + "\n";
+    tela.innerHTML += texto + "<br>";
+
+    // mantém efeito infinito sem congelar
+    if (tela.innerHTML.length > 10000) {
+        tela.innerHTML = "";
+    }
+
     window.scrollTo(0, document.body.scrollHeight);
-}, 100);
+}, 50);
 </script>
 
 </body>
