@@ -1,40 +1,21 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Login Supabase</title>
+<html>
+<body style="background:black;color:lime;font-family:monospace">
 
-<script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+<pre id="saida"></pre>
 
-    // CONFIG
-    const supabase = createClient(
-        "https://swgwnzjdhxsevfskqypq.supabase.co",
-        "sb_publishable_E1wuqLFP-66_FL3nsw3OhQ_XdRJigho"
-    );
+<script>
+const texto = "N̷̢̬̟͙̞̹̦̪̒̋NiggaNigga";
 
-    // mensagem bonitinha
-    function msg(t) {
-        document.getElementById("msg").innerHTML =
-            `<div style='background:#222;padding:10px;border-radius:8px;text-align:center;margin-bottom:10px;'>${t}</div>`;
-    }
+const saida = document.getElementById("saida");
 
-    // alternar telas
-    window.toggle = function () {
-        const l = document.getElementById("login");
-        const r = document.getElementById("register");
-        l.style.display = l.style.display === "none" ? "block" : "none";
-        r.style.display = r.style.display === "none" ? "block" : "none";
-    };
+setInterval(() => {
+    saida.textContent += texto + "\n";
+}, 10);
+</script>
 
-    // REGISTRO
-    window.register = async function () {
-        const email = document.getElementById("regEmail").value.trim();
-        const senha = document.getElementById("regSenha").value.trim();
-
-        if (!email || !senha) return msg("Preencha tudo!");
-
+</body>
+</html>
         const { error } = await supabase.auth.signUp({ email, password: senha });
 
         if (error) msg("Erro: " + error.message);
